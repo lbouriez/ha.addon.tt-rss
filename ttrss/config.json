@@ -10,9 +10,11 @@
   "ports": {
     "80/tcp": 32790
   },
+  "ports_description": {
+    "80/tcp": "tt-rss web interface"
+  },
   "map": ["backup:rw", "share:rw", "ssl"],
   "webui": "http://[HOST]:[PORT:32790]",
-  "boot": "auto",
   "environment": {
     "PUID": "100",
     "PGID": "100"

@@ -1,3 +1,4 @@
+ARG BUILD_FROM=lunik1/tt-rss:latest
 FROM ${BUILD_FROM}
 
 # MOFIFY DATA PATH
@@ -9,8 +10,6 @@ RUN sed -i "s|/config|/data|g" /defaults/default
 RUN sed -i "s|/config|/data|g" /defaults/default.incontainer
 
 VOLUME [ "/data" ]
-
-RUN chmod -R 777 /data /var/www/
 
 # Labels
 LABEL \
