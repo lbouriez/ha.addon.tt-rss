@@ -1,8 +1,6 @@
 {
   "build_from": {
     "aarch64": "lunik1/tt-rss:latest",
-    "amd64": "lunik1/tt-rss:latest",
-    "armv7": "lunik1/tt-rss:latest",
-    "i386": "lunik1/tt-rss:latest"
+    "amd64": "lunik1/tt-rss:latest"
   }
 }

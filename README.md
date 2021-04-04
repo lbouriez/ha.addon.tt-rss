@@ -1,4 +1,4 @@
-# Hassio Add-ons: TT-RSS
+# ~~Home Assistant Lbouriez Add-on~~ Tiny RSS
 
 ## About
 
@@ -8,26 +8,26 @@ Tt-rss is an open source web-based news feed (RSS/Atom) reader and aggregator.
 It is designed to allow you to read news from any location,
 while feeling as close to a real desktop application.
 
-## Installation
+## License
 
-The installation of this add-on is pretty straightforward and not different in
-comparison to installing any other Hass.io add-on.
+MIT License
 
-1. [Add my Hass.io add-ons repo](https://github.com/lbouriez/hassio-addons)
-1. Install the add-on.
-1. Click the `Save` button to store your configuration.
-1. Start the add-on.
-1. Check the logs of the add-on to see if everything went well.
-1. Carefully configure the add-on to your preferences
+Copyright (c) 2018-2021 Laurent Bouriez
 
-## Configuration
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Configure the addon with the parameters. You can use the mariadb addon.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-1. Install and set your DB (MariaDB addon)
-1. Configure the addon
-1. Access to your instance on [http://HASSIO_IP:32790](http://HASSIO_IP:32790)
-1. Enjoy
-
-If you encouter an access right issue, access the container using bash and do:
-`chmod -R 777 /data /var/www/`
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
