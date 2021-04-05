@@ -6,9 +6,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # From lunik1/docker-tt-rss
 # set version label
+ARG BUILD_DATE
 ARG VERSION
 ARG TT_RSS_VERSION
 LABEL build_version="master ${BUILD_DATE}"
+LABEL maintainer="lunik1"
 
 RUN \
     apk add --no-cache \
@@ -55,7 +57,6 @@ EXPOSE 80 443
 
 # Build arguments
 ARG BUILD_ARCH
-ARG BUILD_DATE
 ARG BUILD_DESCRIPTION
 ARG BUILD_NAME
 ARG BUILD_REF
