@@ -4,14 +4,7 @@ FROM ${BUILD_FROM}
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# From lunik1/docker-tt-rss
-# set version label
-ARG BUILD_DATE
-ARG VERSION
 ARG TT_RSS_VERSION
-LABEL build_version="master ${BUILD_DATE}"
-LABEL maintainer="lunik1"
-
 RUN \
     apk add --no-cache \
         curl=7.64.0-r5 \
@@ -48,15 +41,19 @@ RUN \
     \
     && rm -rf /tmp/* \
     \
-    && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf
+    && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \ 
+    \
+    && if [ -z ${TTRSS_DB_TYPE+x} ]; then TTRSS_DB_TYPE=mysql; fi
 
 # Copy root filesystem
-COPY rootfs /
+COPY root /
 
 EXPOSE 80 443
+VOLUME /config
 
 # Build arguments
 ARG BUILD_ARCH
+ARG BUILD_DATE
 ARG BUILD_DESCRIPTION
 ARG BUILD_NAME
 ARG BUILD_REF
