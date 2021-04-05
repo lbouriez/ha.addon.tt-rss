@@ -1,16 +1,14 @@
 ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.12
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} as lunik1_build
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # From lunik1/docker-tt-rss
 # set version label
-ARG BUILD_DATE
 ARG VERSION
 ARG TT_RSS_VERSION
 LABEL build_version="master ${BUILD_DATE}"
-LABEL maintainer="lunik1"
 
 RUN \
     apk add --no-cache \
@@ -53,16 +51,7 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
-# From Me
-# MOFIFY DATA PATH
-RUN sed -i "s|/config|/data|g" /etc/services.d/update-feeds/run
-RUN sed -i "s|/config|/data|g" /etc/cont-init.d/19-newdefault
-RUN sed -i "s|/config/|/data/|g" /etc/cont-init.d/30-config
-
-RUN sed -i "s|/config|/data|g" /defaults/default
-# RUN sed -i "s|/config|/data|g" /defaults/default.incontainer
-
-VOLUME [ "/data" ]
+FROM lunik1_build
 
 # Build arguments
 ARG BUILD_ARCH
