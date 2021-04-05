@@ -51,6 +51,9 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+EXPOSE 80 443
+VOLUME /config
+
 FROM lunik1_build
 
 # Build arguments
