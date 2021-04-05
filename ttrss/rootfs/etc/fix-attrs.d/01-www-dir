@@ -1,1 +1,1 @@
-s6-chmod 777 /var/www/
+s6-chmod 0777 /var/www/
