@@ -1,11 +1,10 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:4.1.3
+ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.12
 FROM ${BUILD_FROM}
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-
-###HIS
+# From lunik1/docker-tt-rss
 # set version label
 ARG BUILD_DATE
 ARG VERSION
@@ -15,23 +14,23 @@ LABEL maintainer="lunik1"
 
 RUN \
     apk add --no-cache \
-        curl=~7.75.0 \
-        php7-apcu=~5.1.18 \
-        php7-curl=~7.4.16 \
-        php7-dom=~7.4.16 \
-        php7-gd=~7.4.16 \
-        php7-iconv=~7.4.16 \
-        php7-intl=~7.4.16 \
-        php7-ldap=~7.4.16 \
-        php7-mcrypt=~7.0.5 \
-        php7-mysqli=~7.4.16 \
-        php7-mysqlnd=~7.4.16 \
-        php7-pcntl=~7.4.16 \
-        php7-pdo_mysql=~7.4.16 \
-        php7-pdo_pgsql=~7.4.16 \
-        php7-pgsql=~7.4.16 \
-        php7-posix=~7.4.16 \
-        tar=~1.34 \
+        curl=7.64.0-r5 \
+        php7-apcu=5.1.16-r0 \
+        php7-curl=7.2.33-r0 \
+        php7-dom=7.2.33-r0 \
+        php7-gd=7.2.33-r0 \
+        php7-iconv=7.2.33-r0 \
+        php7-intl=7.2.33-r0 \
+        php7-ldap=7.2.33-r0 \
+        php7-mcrypt=1.0.1-r1 \
+        php7-mysqli=7.2.33-r0 \
+        php7-mysqlnd=7.2.33-r0 \
+        php7-pcntl=7.2.33-r0 \
+        php7-pdo_mysql=7.2.33-r0 \
+        php7-pdo_pgsql=7.2.33-r0 \
+        php7-pgsql=7.2.33-r0 \
+        php7-posix=7.2.33-r0 \
+        tar=1.32-r0 \
     \
     && mkdir -p /var/www/html/ \
     \
@@ -51,44 +50,19 @@ RUN \
     \
     && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf
 
-# # Copy root filesystem
-# RUN ls /
-# COPY rootfs /
+# Copy root filesystem
+COPY rootfs /
 
-# ports and volumes
-# EXPOSE 80 443
-# VOLUME /config
-###HIS END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### MINE
+# From Me
 # MOFIFY DATA PATH
 RUN sed -i "s|/config|/data|g" /etc/services.d/update-feeds/run
 RUN sed -i "s|/config|/data|g" /etc/cont-init.d/19-newdefault
 RUN sed -i "s|/config/|/data/|g" /etc/cont-init.d/30-config
 
 RUN sed -i "s|/config|/data|g" /defaults/default
-RUN sed -i "s|/config|/data|g" /defaults/default.incontainer
+# RUN sed -i "s|/config|/data|g" /defaults/default.incontainer
 
 VOLUME [ "/data" ]
-
-# RUN chmod -R 777 /var/www/
-### MINE END
-
-
-
 
 # Build arguments
 ARG BUILD_ARCH
