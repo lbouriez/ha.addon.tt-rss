@@ -5,6 +5,6 @@
 	mv /defaults/default.incontainer /defaults/default && \
 	exit 0
 
-# permissions on legacy container install
+# permissions on legacy container install
 chown -R abc:abc \
 	/config
