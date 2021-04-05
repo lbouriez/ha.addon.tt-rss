@@ -43,7 +43,9 @@ RUN \
     \
     && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \ 
     \
-    && if [ -z ${TTRSS_DB_TYPE+x} ]; then TTRSS_DB_TYPE=mysql; fi
+    && if [ -z ${TTRSS_DB_TYPE+x} ]; then TTRSS_DB_TYPE=mysql; fi \
+    \
+    && chmod -R 777 /var/www/html
 
 # Copy root filesystem
 COPY root /
