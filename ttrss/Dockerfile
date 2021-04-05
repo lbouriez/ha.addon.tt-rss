@@ -1,5 +1,5 @@
 ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.12
-FROM ${BUILD_FROM} as lunik1_build
+FROM ${BUILD_FROM}
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -52,9 +52,6 @@ RUN \
 COPY rootfs /
 
 EXPOSE 80 443
-VOLUME /config
-
-FROM lunik1_build
 
 # Build arguments
 ARG BUILD_ARCH
