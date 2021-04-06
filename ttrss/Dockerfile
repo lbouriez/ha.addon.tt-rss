@@ -23,6 +23,8 @@ ARG TT_RSS_VERSION
 RUN \
     set -o pipefail \
     \
+    && apk add --no-cache --virtual .build-dependencies \
+    \
     && apk add --no-cache \
         php7-curl=7.4.15-r0 \
         php7-dom=7.4.15-r0 \
@@ -58,9 +60,9 @@ RUN \
     \
     && ln -sf /usr/bin/php7 /usr/bin/php \
     \
-    && rm -rf /tmp/* \
+    && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \
     \
-    && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \ 
+    && chmod -R 777 /var/www/html \
     \
     && curl -J -L -o /tmp/bashio.tar.gz \
         "https://github.com/hassio-addons/bashio/archive/v0.13.0.tar.gz" \
@@ -71,9 +73,9 @@ RUN \
     \
     && mv /tmp/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && chmod -R 777 /var/www/html \
+    && chmod -R 555 /usr/lib/bashio \
     \
-    && apk del --no-cache --purge \
+    && apk del --no-cache --purge .build-dependencies \
     && rm -f -r \
         /tmp/*
 

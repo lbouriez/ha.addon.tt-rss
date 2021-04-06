@@ -1,3 +1,4 @@
+#!/usr/bin/with-contenv bashio
 bashio::log.blue \
         '-----------------------------------------------------------'
     bashio::log.blue " Here is the configuration on boot"
