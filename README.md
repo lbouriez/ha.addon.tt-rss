@@ -1,4 +1,4 @@
-# ~~Home Assistant Lbouriez Add-on~~ Tiny RSS
+# Home Assistant Lbouriez Add-on Tiny RSS
 
 ## About
 
