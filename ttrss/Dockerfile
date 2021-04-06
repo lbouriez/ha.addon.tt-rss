@@ -1,6 +1,45 @@
-ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.13
+ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine:3.13
 # hadolint ignore=DL3006
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} as base
+# Based on https://github.com/linuxserver/docker-baseimage-alpine-nginx
+
+COPY base-root /
+
+# hadolint ignore=SC2016
+RUN \
+    apk add --no-cache \
+        php8=8.0.2-r0 \
+        php8-fileinfo=8.0.2-r0 \
+        php8-fpm=8.0.2-r0 \
+        php8-common=8.0.2-r0 \
+        php8-mbstring=8.0.2-r0 \
+        php8-openssl=8.0.2-r0 \
+        php8-session=8.0.2-r0 \
+        php8-simplexml=8.0.2-r0 \
+        php8-xml=8.0.2-r0 \
+        php8-xmlwriter=8.0.2-r0 \
+    \
+    && apk add --no-cache \
+        apache2-utils=2.4.46-r3 \
+        git=2.30.2-r0 \
+        libressl3.1-libssl=3.1.5-r0 \
+        logrotate=3.18.0-r0 \
+        nano=5.4-r1 \
+        nginx=1.18.0-r13 \
+        openssl=1.1.1k-r0 \
+    \
+    && echo 'fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;' >> \
+	    /etc/nginx/fastcgi_params \
+    \
+    && rm -f /etc/nginx/conf.d/default.conf \
+    \
+    && sed -i "s#/var/log/messages {}.*# #g" /etc/logrotate.conf \
+    \
+    && sed -i 's#/usr/sbin/logrotate /etc/logrotate.conf#/usr/sbin/logrotate /etc/logrotate.conf -s /config/log/logrotate.status#g' \
+	    /etc/periodic/daily/logrotate
+
+FROM base
+# Based on https://github.com/lunik1/docker-tt-rss
 
 # Environment variables
 ENV \
@@ -21,25 +60,27 @@ RUN \
     set -o pipefail \
     \
     && apk add --no-cache \
-        php7-curl=7.4.15-r0 \
-        php7-dom=7.4.15-r0 \
-        php7-gd=7.4.15-r0 \
-        php7-iconv=7.4.15-r0 \
-        php7-intl=7.4.15-r0 \
-        php7-ldap=7.4.15-r0 \
-        php7-mysqli=7.4.15-r0 \
-        php7-mysqlnd=7.4.15-r0 \
-        php7-pcntl=7.4.15-r0 \
-        php7-pdo_mysql=7.4.15-r0 \
-        php7-pdo_pgsql=7.4.15-r0 \
-        php7-pgsql=7.4.15-r0 \
-        php7-posix=7.4.15-r0 \
+        php8-curl=8.0.2-r0 \
+        php8-dom=8.0.2-r0 \
+        php8-gd=8.0.2-r0 \
+        php8-iconv=8.0.2-r0 \
+        php8-intl=8.0.2-r0 \
+        php8-ldap=8.0.2-r0 \
+        php8-mysqli=8.0.2-r0 \
+        php8-mysqlnd=8.0.2-r0 \
+        php8-pcntl=8.0.2-r0 \
+        php8-pdo_mysql=8.0.2-r0 \
+        php8-pdo_pgsql=8.0.2-r0 \
+        php8-pgsql=8.0.2-r0 \
+        php8-posix=8.0.2-r0 \
+    \
+    && apk add --no-cache \
+        php8-pecl-apcu=5.1.20-r0 \
+        php8-pecl-mcrypt=1.0.4-r0 \
     \
     && apk add --no-cache \
         curl=7.74.0-r1 \
-        php7-apcu=5.1.20-r0 \
-        php7-mcrypt=1.0.4-r0 \
-        tar=1.33-r1 \
+        tar=1.34-r0 \
         bash=5.1.0-r0 \
         jq=1.6-r1 \
     \
@@ -55,9 +96,9 @@ RUN \
         /tmp/ttrss.tar.gz -C \
 	    /var/www/html/ --strip-components=1 \
     \
-    && ln -sf /usr/bin/php7 /usr/bin/php \
+    && ln -sf /usr/bin/php8 /usr/bin/php \
     \
-    && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \
+    && sed -i 's/^;clear_env/clear_env/i' /etc/php8/php-fpm.d/www.conf \
     \
     && chmod -R 777 /var/www/html \
     \
