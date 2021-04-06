@@ -4,12 +4,9 @@ FROM ${BUILD_FROM}
 
 # Environment variables
 ENV \
-    HOME="/root" \
     LANG="C.UTF-8" \
-    PS1="$(whoami)@$(hostname):$(pwd)$ " \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES=1 \
-    TERM="xterm-256color"
+    S6_CMD_WAIT_FOR_SERVICES=1
 
 # Copy root filesystem
 COPY rootfs /
@@ -22,8 +19,6 @@ ARG TT_RSS_VERSION
 
 RUN \
     set -o pipefail \
-    \
-    && apk add --no-cache --virtual .build-dependencies \
     \
     && apk add --no-cache \
         php7-curl=7.4.15-r0 \
@@ -45,6 +40,8 @@ RUN \
         php7-apcu=5.1.20-r0 \
         php7-mcrypt=1.0.4-r0 \
         tar=1.33-r1 \
+        bash=5.1.0-r0 \
+        jq=1.6-r1 \
     \
     && mkdir -p /var/www/html/ \
     \
@@ -75,7 +72,7 @@ RUN \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     && chmod -R 555 /usr/lib/bashio \
     \
-    && apk del --no-cache --purge .build-dependencies \
+    && apk del --no-cache --purge \
     && rm -f -r \
         /tmp/*
 
