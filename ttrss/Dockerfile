@@ -1,30 +1,48 @@
-ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.12
+ARG BUILD_FROM=ghcr.io/linuxserver/baseimage-alpine-nginx:3.13
+# hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
-# Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# Environment variables
+ENV \
+    HOME="/root" \
+    LANG="C.UTF-8" \
+    PS1="$(whoami)@$(hostname):$(pwd)$ " \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    TERM="xterm-256color"
 
+# Copy root filesystem
+COPY rootfs /
+
+# Set shell
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
+# Install base system
 ARG TT_RSS_VERSION
 
 RUN \
-    apk add --no-cache \
-        curl=7.64.0-r5 \
-        php7-apcu=5.1.16-r0 \
-        php7-curl=7.2.33-r0 \
-        php7-dom=7.2.33-r0 \
-        php7-gd=7.2.33-r0 \
-        php7-iconv=7.2.33-r0 \
-        php7-intl=7.2.33-r0 \
-        php7-ldap=7.2.33-r0 \
-        php7-mcrypt=1.0.1-r1 \
-        php7-mysqli=7.2.33-r0 \
-        php7-mysqlnd=7.2.33-r0 \
-        php7-pcntl=7.2.33-r0 \
-        php7-pdo_mysql=7.2.33-r0 \
-        php7-pdo_pgsql=7.2.33-r0 \
-        php7-pgsql=7.2.33-r0 \
-        php7-posix=7.2.33-r0 \
-        tar=1.32-r0 \
+    set -o pipefail \
+    \
+    && apk add --no-cache \
+        php7-curl=7.4.15-r0 \
+        php7-dom=7.4.15-r0 \
+        php7-gd=7.4.15-r0 \
+        php7-iconv=7.4.15-r0 \
+        php7-intl=7.4.15-r0 \
+        php7-ldap=7.4.15-r0 \
+        php7-mysqli=7.4.15-r0 \
+        php7-mysqlnd=7.4.15-r0 \
+        php7-pcntl=7.4.15-r0 \
+        php7-pdo_mysql=7.4.15-r0 \
+        php7-pdo_pgsql=7.4.15-r0 \
+        php7-pgsql=7.4.15-r0 \
+        php7-posix=7.4.15-r0 \
+    \
+    && apk add --no-cache \
+        curl=7.74.0-r1 \
+        php7-apcu=5.1.20-r0 \
+        php7-mcrypt=1.0.4-r0 \
+        tar=1.33-r1 \
     \
     && mkdir -p /var/www/html/ \
     \
@@ -44,10 +62,20 @@ RUN \
     \
     && sed -i 's/^;clear_env/clear_env/i' /etc/php7/php-fpm.d/www.conf \ 
     \
-    && chmod -R 777 /var/www/html
-
-# Copy root filesystem
-COPY root /
+    && curl -J -L -o /tmp/bashio.tar.gz \
+        "https://github.com/hassio-addons/bashio/archive/v0.13.0.tar.gz" \
+    && mkdir /tmp/bashio \
+    && tar zxvf \
+        /tmp/bashio.tar.gz \
+        --strip 1 -C /tmp/bashio \
+    \
+    && mv /tmp/bashio/lib /usr/lib/bashio \
+    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
+    && chmod -R 777 /var/www/html \
+    \
+    && apk del --no-cache --purge \
+    && rm -f -r \
+        /tmp/*
 
 # Build arguments
 ARG BUILD_ARCH
