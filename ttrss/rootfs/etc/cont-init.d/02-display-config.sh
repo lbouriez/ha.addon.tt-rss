@@ -1,5 +1,6 @@
 #!/usr/bin/with-contenv bashio
-bashio::log.blue \
+if [ ${log_level} = "debug" ]; then
+    bashio::log.blue \
         '-----------------------------------------------------------'
     bashio::log.blue " Here is the configuration on boot"
     bashio::log.blue " TTRSS_DB_TYPE => ${TTRSS_DB_TYPE}"
@@ -11,3 +12,4 @@ bashio::log.blue \
     bashio::log.blue " TTRSS_SELF_URL_PATH => ${TTRSS_SELF_URL_PATH}"
     bashio::log.blue \
         '-----------------------------------------------------------'
+fi
