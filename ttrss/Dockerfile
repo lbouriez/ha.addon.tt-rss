@@ -100,7 +100,9 @@ RUN \
     \
     && sed -i 's/^;clear_env/clear_env/i' /etc/php8/php-fpm.d/www.conf \
     \
-    && chmod -R 777 /var/www/html \
+    && mkdir -p /config \
+    \
+    && chmod -R 777 /var/www/html /config \
     \
     && curl -J -L -o /tmp/bashio.tar.gz \
         "https://github.com/hassio-addons/bashio/archive/v0.13.0.tar.gz" \
