@@ -8,25 +8,25 @@ COPY base-root /
 # hadolint ignore=SC2016
 RUN \
     apk add --no-cache \
-        php8=8.0.2-r0 \
-        php8-fileinfo=8.0.2-r0 \
-        php8-fpm=8.0.2-r0 \
-        php8-common=8.0.2-r0 \
-        php8-mbstring=8.0.2-r0 \
-        php8-openssl=8.0.2-r0 \
-        php8-session=8.0.2-r0 \
-        php8-simplexml=8.0.2-r0 \
-        php8-xml=8.0.2-r0 \
-        php8-xmlwriter=8.0.2-r0 \
+        php8=8.0.13-r0 \
+        php8-fileinfo=8.0.13-r0 \
+        php8-fpm=8.0.13-r0 \
+        php8-common=8.0.13-r0 \
+        php8-mbstring=8.0.13-r0 \
+        php8-openssl=8.0.13-r0 \
+        php8-session=8.0.13-r0 \
+        php8-simplexml=8.0.13-r0 \
+        php8-xml=8.0.13-r0 \
+        php8-xmlwriter=8.0.13-r0 \
     \
     && apk add --no-cache \
-        apache2-utils=2.4.46-r3 \
-        git=2.30.2-r0 \
+        apache2-utils=2.4.54-r0 \
+        git=2.30.6-r0 \
         libressl3.1-libssl=3.1.5-r0 \
-        logrotate=3.18.0-r0 \
-        nano=5.4-r1 \
-        nginx=1.18.0-r13 \
-        openssl=1.1.1k-r0 \
+        logrotate=3.18.0-r3 \
+        nano=5.4-r3 \
+        nginx=1.18.0-r15 \
+        openssl=1.1.1q-r0 \
     \
     && echo 'fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;' >> \
 	    /etc/nginx/fastcgi_params \
@@ -60,28 +60,28 @@ RUN \
     set -o pipefail \
     \
     && apk add --no-cache \
-        php8-curl=8.0.2-r0 \
-        php8-dom=8.0.2-r0 \
-        php8-gd=8.0.2-r0 \
-        php8-iconv=8.0.2-r0 \
-        php8-intl=8.0.2-r0 \
-        php8-ldap=8.0.2-r0 \
-        php8-mysqli=8.0.2-r0 \
-        php8-mysqlnd=8.0.2-r0 \
-        php8-pcntl=8.0.2-r0 \
-        php8-pdo_mysql=8.0.2-r0 \
-        php8-pdo_pgsql=8.0.2-r0 \
-        php8-pgsql=8.0.2-r0 \
-        php8-posix=8.0.2-r0 \
+        php8-curl=8.0.13-r0 \
+        php8-dom=8.0.13-r0 \
+        php8-gd=8.0.13-r0 \
+        php8-iconv=8.0.13-r0 \
+        php8-intl=8.0.13-r0 \
+        php8-ldap=8.0.13-r0 \
+        php8-mysqli=8.0.13-r0 \
+        php8-mysqlnd=8.0.13-r0 \
+        php8-pcntl=8.0.13-r0 \
+        php8-pdo_mysql=8.0.13-r0 \
+        php8-pdo_pgsql=8.0.13-r0 \
+        php8-pgsql=8.0.13-r0 \
+        php8-posix=8.0.13-r0 \
     \
     && apk add --no-cache \
         php8-pecl-apcu=5.1.20-r0 \
         php8-pecl-mcrypt=1.0.4-r0 \
     \
     && apk add --no-cache \
-        curl=7.74.0-r1 \
+        curl=7.79.1-r3 \
         tar=1.34-r0 \
-        bash=5.1.0-r0 \
+        bash=5.1.16-r0 \
         jq=1.6-r1 \
     \
     && mkdir -p /var/www/html/ \
