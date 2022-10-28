@@ -54,7 +54,7 @@ COPY rootfs /
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Install base system
-ARG TT_RSS_VERSION
+ARG TT_RSS_VERSION=master
 
 RUN \
     set -o pipefail \
